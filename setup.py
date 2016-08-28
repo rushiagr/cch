@@ -1,7 +1,8 @@
 """
 CCH - Cloud CLI for Humans.
 
-Very simple cloud CLI, specifically designed for human interaction.
+Very simple cloud CLI, specifically designed for human use. Strictly forbidden
+for scripts' consumption :)
 
 Just type `mkvm` and it will help you step-by-step create a virtual machine, by
 first letting you provide a flavor from availale flavors, then similarly a
@@ -23,7 +24,7 @@ dependencies = ['click', 'awscli', 'boto3', 'prettytable', 'future']
 
 setup(
     name='cch',
-    version='0.1.10',
+    version='0.1.16',
     url='https://github.com/rushiagr/cch',
     license='Apache 2.0',
     author='Rushi Agrawal',

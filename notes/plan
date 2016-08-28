@@ -23,7 +23,8 @@ Future improvements
 - printing flavor names should print properly based on width of screen, in a tabular format
 - accept --profile parameter, and also show profile information after each command
 
-Validations
+Validations/bugs
+- if rmkp is provided with a name with which no keypair exists, it still says 'keypair deleted'
 - keypair input not validated in mkvm
 - according to http://python-future.org/compatible_idioms.html, using input() is unsafe
 - update docstrings for all methods

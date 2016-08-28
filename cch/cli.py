@@ -106,7 +106,7 @@ def mkvm():
             'd2.2xlarge', 'd2.4xlarge', 'd2.8xlarge']
 
     print('Only Ubuntu image and Singapore region supported as of now')
-    print('Available flavors:', flavor_names)
+    print('Available flavors:', ' '.join(flavor_names))
 
     selected_flavor=''
     while True:
@@ -123,7 +123,7 @@ def mkvm():
 
     keypairs = ec2.key_pairs.all()
     keypair_names = [kp.name for kp in keypairs]
-    print('Available key pairs:', keypair_names)
+    print('Available key pairs:', ' '.join(keypair_names))
     sys.stdout.write("Select keypair: ")
     selected_keypair=input()
 
@@ -136,6 +136,8 @@ def mkvm():
     secgroup_names = [sg.tags[0]['Value']
             for sg in secgroups if sg.tags is not None]
     print('Available security groups:', secgroup_names)
+
+    print('Available security groups:\n    ', '\t'.join(secgroup_names))
     sys.stdout.write("Select security group [empty for no security group]: ")
     selected_security_group_name=input()
 
@@ -163,7 +165,7 @@ def lskp():
 
     keypairs = ec2.key_pairs.all()
     keypair_names = [kp.name for kp in keypairs]
-    print('Available keypairs :\n   ', '\t'.join(keypair_names))
+    print('Available keypairs:\n   ', '\n    '.join(keypair_names))
 
 
 @click.command()
@@ -177,8 +179,8 @@ def lssg(is_detail):
     secgroups = list(ec2.security_groups.all())
     if not is_detail:
         secgroup_names = [sg.group_name for sg in secgroups]
-        print('Available security groups:\n   ', '\t'.join(secgroup_names))
-        print('Execute "lssg -a" for viewing security group rules')
+        print('Available security groups:\n   ', '\n    '.join(secgroup_names))
+        print('\nExecute "lssg -a" for viewing security group rules')
     else:
         for sg in secgroups:
             print('\nSecurity group:', sg.group_name)
