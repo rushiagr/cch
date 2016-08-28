@@ -162,6 +162,7 @@ def lskp():
 
     keypairs = ec2.key_pairs.all()
     keypair_names = [kp.name for kp in keypairs]
+    print('Available keypairs :\n   ', '\t'.join(keypair_names))
 
 
 @click.command()
