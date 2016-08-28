@@ -21,8 +21,8 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'cch = cch.cli:main',
             'lsvm = cch.cli:lsvm',
+            'mkvm = cch.cli:mkvm',
         ],
     },
     classifiers=[
