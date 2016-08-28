@@ -1,7 +1,20 @@
 """
-Cloud CLI for Humans.
+CCH - Cloud CLI for Humans.
 
-Run 'lsvm' or 'mkvm' to list or create a VM in EC2 cloud.
+Very simple cloud CLI, specifically designed for human interaction.
+
+Just type `mkvm` and it will help you step-by-step create a virtual machine, by
+first letting you provide a flavor from availale flavors, then similarly a
+security group, and then root volume storage.  All the other commands are just
+as simple!
+
+
+Installation
+------------
+
+    pip install cch
+
+More details at https://github.com/rushiagr/cch/blob/master/README.md
 """
 
 from setuptools import find_packages, setup
@@ -10,7 +23,7 @@ dependencies = ['click', 'boto3', 'prettytable']
 
 setup(
     name='cch',
-    version='0.1.1',
+    version='0.1.5',
     url='https://github.com/rushiagr/cch',
     license='BSD',
     author='Rushi Agrawal',
