@@ -37,3 +37,5 @@ To use it:
     lssg    - List all security groups (including a detailed view)
     mksg    - Create a security group (including specifying secgroup rules)
     rmsg    - Delete a security group
+
+Look at `notes/plan` for a short list of things I had in my mind while developing this library
