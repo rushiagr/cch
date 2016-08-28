@@ -225,21 +225,27 @@ def stpvm(vm_ids):
     ec2.instances.filter(InstanceIds=vm_ids).stop()
 
 @click.command()
-@click.argument('keypair_name', nargs=1)
-def mkkp(keypair_name):
+def mkkp():
     ec2 = get_connection()
     if not ec2:
         return
+    sys.stdout.write("Keypair name (required): ")
+    keypair_name=input()
     kp = ec2.create_key_pair(KeyName=keypair_name)
     print('Keypair', keypair_name, 'created. Private key:')
     print(kp.key_material)
 
 @click.command()
-@click.argument('keypair_name', nargs=1)
+@click.argument('keypair_name', required=False)
 def rmkp(keypair_name):
     ec2 = get_connection()
     if not ec2:
         return
+
+    if keypair_name is None:
+        sys.stdout.write("Keypair name (required): ")
+        keypair_name=input()
+
     kp = ec2.KeyPair(keypair_name)
     kp.delete()
     print('Keypair', keypair_name, 'deleted.')
@@ -287,11 +293,16 @@ def mksg():
     print('Security group', sg_name, 'created')
 
 @click.command()
-@click.argument('secgroup_name', nargs=1)
+@click.argument('secgroup_name', required=False)
 def rmsg(secgroup_name):
     ec2 = get_connection()
     if not ec2:
         return
+
+    if secgroup_name is None:
+        sys.stdout.write("Security group name (required): ")
+        secgroup_name=input()
+
     sg = [sg for sg in ec2.security_groups.filter(GroupNames=[secgroup_name])][0]
     sg.delete()
     print('Security group', secgroup_name, 'deleted.')
