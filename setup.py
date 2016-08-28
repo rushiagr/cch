@@ -19,11 +19,11 @@ More details at https://github.com/rushiagr/cch/blob/master/README.md
 
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'awscli', 'boto3', 'prettytable']
+dependencies = ['click', 'awscli', 'boto3', 'prettytable', 'future']
 
 setup(
     name='cch',
-    version='0.1.8',
+    version='0.1.9',
     url='https://github.com/rushiagr/cch',
     license='Apache 2.0',
     author='Rushi Agrawal',
