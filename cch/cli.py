@@ -127,15 +127,11 @@ def mkvm():
     sys.stdout.write("Select keypair: ")
     selected_keypair=input()
 
-    secgroups = ec2.security_groups.all()
-    secgroups = [sg for sg in secgroups]
+    secgroups = list(ec2.security_groups.all())
     secgroup_name_id_dict = {}
     for sg in secgroups:
-        if sg.tags is not None:
-            secgroup_name_id_dict[sg.tags[0]['Value']] = sg.id
-    secgroup_names = [sg.tags[0]['Value']
-            for sg in secgroups if sg.tags is not None]
-    print('Available security groups:', secgroup_names)
+        secgroup_name_id_dict[sg.group_name] = sg.id
+    secgroup_names = [sg.group_name for sg in secgroups]
 
     print('Available security groups:\n    ', '\t'.join(secgroup_names))
     sys.stdout.write("Select security group [empty for no security group]: ")
