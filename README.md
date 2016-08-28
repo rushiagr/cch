@@ -10,6 +10,7 @@ first letting you provide a flavor from availale flavors, then similarly a
 security group, and then root volume storage.  All the other commands are just
 as simple!
 
+View demo at: https://asciinema.org/a/ektm98481nniu7rldc1ncu5af
 
 # Installation
 
