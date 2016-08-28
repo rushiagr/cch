@@ -27,6 +27,10 @@ def get_connection():
         return None
     return ec2
 
+def abort_if_false(ctx, param, value):
+    if not value:
+        ctx.abort()
+
 @click.command()
 @click.option('-s', 'show_vol_info', flag_value=True,
         help='Show VM disk sizes (GBs), starting with root disk')
@@ -118,7 +122,7 @@ def mkvm():
 
     keypairs = ec2.key_pairs.all()
     keypair_names = [kp.name for kp in keypairs]
-    print( 'Available key pairs:', keypair_names)
+    print('Available key pairs:', keypair_names)
     sys.stdout.write("Select keypair: ")
     selected_keypair=input()
 
@@ -149,3 +153,145 @@ def mkvm():
                     'Ebs': {"VolumeSize": int(selected_vol_size)}}],
                 SecurityGroupIds=[
                     secgroup_name_id_dict[selected_security_group_name]])
+
+@click.command()
+def lskp():
+    ec2 = get_connection()
+    if not ec2:
+        return
+
+    keypairs = ec2.key_pairs.all()
+    keypair_names = [kp.name for kp in keypairs]
+
+
+@click.command()
+@click.option('-a', 'is_detail', flag_value=True,
+        help='Show security group rules.')
+def lssg(is_detail):
+    ec2 = get_connection()
+    if not ec2:
+        return
+
+    secgroups = list(ec2.security_groups.all())
+    if not is_detail:
+        secgroup_names = [sg.group_name for sg in secgroups]
+        print('Available security groups:\n   ', '\t'.join(secgroup_names))
+        print('Execute "lssg -a" for viewing security group rules')
+    else:
+        for sg in secgroups:
+            print('\nSecurity group:', sg.group_name)
+
+            ip_permissions = sg.ip_permissions
+            print('   Protocol\t  IP\t\tfrom\tto')
+            for perm in ip_permissions:
+                if perm['IpRanges']:
+                    print('     tcp\t' + perm['IpRanges'][0]['CidrIp'] + '\t' +
+                        str(perm['FromPort']) + '\t' + str(perm['ToPort']))
+
+@click.command()
+@click.argument('vm_ids', nargs=-1)
+@click.option('--yes', is_flag=True, callback=abort_if_false,
+              expose_value=False,
+              prompt='Are you sure you want to stop and terminate the VM? You'
+                ' can stop the VM by using "stpvm" command.')
+def rmvm(vm_ids):
+    print('Stopping and terminating VMs with IDs: ', vm_ids)
+
+    # TODO(rushiagr): use re.match('i-[0-9a-f]+', 'i-abcd1334') to confirm
+    # it's an ID
+
+    ec2 = get_connection()
+    if not ec2:
+        return
+
+    ec2.instances.filter(InstanceIds=vm_ids).stop()
+    ec2.instances.filter(InstanceIds=vm_ids).terminate()
+
+@click.command()
+@click.argument('vm_ids', nargs=-1)
+@click.option('--yes', is_flag=True, callback=abort_if_false,
+              expose_value=False,
+              prompt='Are you sure you want to stop the VM?')
+def stpvm(vm_ids):
+    print('Stopping (but not terminating) VMs with IDs: ', vm_ids)
+
+    # TODO(rushiagr): use re.match('i-[0-9a-f]+', 'i-abcd1334') to confirm
+    # it's an ID
+
+    ec2 = get_connection()
+    if not ec2:
+        return
+
+    ec2.instances.filter(InstanceIds=vm_ids).stop()
+
+@click.command()
+@click.argument('keypair_name', nargs=1)
+def mkkp(keypair_name):
+    ec2 = get_connection()
+    if not ec2:
+        return
+    kp = ec2.create_key_pair(KeyName=keypair_name)
+    print('Keypair', keypair_name, 'created. Private key:')
+    print(kp.key_material)
+
+@click.command()
+@click.argument('keypair_name', nargs=1)
+def rmkp(keypair_name):
+    ec2 = get_connection()
+    if not ec2:
+        return
+    kp = ec2.KeyPair(keypair_name)
+    kp.delete()
+    print('Keypair', keypair_name, 'deleted.')
+
+@click.command()
+def mksg():
+    ec2 = get_connection()
+    if not ec2:
+        return
+
+    sys.stdout.write("Note that only TCP rules are supported as of now.\n")
+
+    sys.stdout.write("Security group name (required): ")
+    sg_name=input()
+    sys.stdout.write("Security group description (required): ")
+    sg_description=input()
+
+    ip_portrange_tuples = []
+
+    while True:
+        sys.stdout.write("Add security group rule? [y/n]: ")
+        bool_inp = input()
+        if bool_inp.lower().startswith('y'):
+            sys.stdout.write("IP (e.g. 0.0.0.0/0): ")
+            ip = input()
+            sys.stdout.write("Port or port range (e.g. '8080' or '8000-8999': ")
+            port_range = input()
+            if port_range.find('-') > -1:
+                start_port, end_port = port_range.split('-')
+            else:
+                start_port = end_port = port_range
+            start_port, end_port = int(start_port), int(end_port)
+            if start_port > end_port:
+                start_port, end_port = end_port, start_port
+            ip_portrange_tuples.append((ip, start_port, end_port))
+        else:
+            break
+
+    mysg = ec2.create_security_group(GroupName=sg_name,
+            Description=sg_description)
+    for ip, start_port, end_port in ip_portrange_tuples:
+        mysg.authorize_ingress(IpProtocol="tcp", CidrIp=ip,
+                FromPort=start_port, ToPort=end_port)
+
+    print('Security group', sg_name, 'created')
+
+@click.command()
+@click.argument('secgroup_name', nargs=1)
+def rmsg(secgroup_name):
+    ec2 = get_connection()
+    if not ec2:
+        return
+    sg = [sg for sg in ec2.security_groups.filter(GroupNames=[secgroup_name])][0]
+    sg.delete()
+    print('Security group', secgroup_name, 'deleted.')

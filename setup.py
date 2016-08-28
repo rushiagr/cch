@@ -26,6 +26,16 @@ setup(
         'console_scripts': [
             'lsvm = cch.cli:lsvm',
             'mkvm = cch.cli:mkvm',
+            'rmvm = cch.cli:rmvm',
+            'stpvm = cch.cli:stpvm',
+
+            'lskp = cch.cli:lskp',
+            'mkkp = cch.cli:mkkp',
+            'rmkp = cch.cli:rmkp',
+
+            'lssg = cch.cli:lssg',
+            'mksg = cch.cli:mksg',
+            'rmsg = cch.cli:rmsg',
         ],
     },
     classifiers=[
