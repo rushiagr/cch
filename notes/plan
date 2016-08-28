@@ -1,0 +1,29 @@
+- create python package with two command line entry points
+- put lsvm and mkvm in it
+- add mkkp, lskp and rmkp
+- upload package to pypi
+- add mksg lssg rmsg
+- Only happy cases
+- add modsg
+- write tests
+- add pep8 and pylint checks
+- add integration with circleCI/whatever
+- allow specifying 'name' for vm
+- rmvm: 1. by id. 2. by name (regex)
+- rmvm allow multiple IDs
+- rmvm and stpvm: if the VM is already stopped, command throws an error
+- 'are you sure' to all 'rm' commands
+
+Future improvements
+- Use cached security groups and cached keypair names
+- truncate vm name if more than 20 chars logs, with '[...]'
+- use echo() instead of print()
+- pretty-print flavor names
+- use a decorator to get connection object
+- printing flavor names should print properly based on width of screen, in a tabular format
+- accept --profile parameter, and also show profile information after each command
+
+Validations
+- keypair input not validated in mkvm
+- according to http://python-future.org/compatible_idioms.html, using input() is unsafe
+- update docstrings for all methods
