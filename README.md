@@ -16,6 +16,10 @@ Simply run:
 
     $ pip install cch
 
+You might need to configure AWS credentials if not configured in your system
+already. Just run `aws configure` and provide access key, secret key and
+region. This will keep credentials in your system in `~/.aws/config` and
+`~/.aws/credentials` files.
 
 # Usage
 
