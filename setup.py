@@ -3,7 +3,7 @@ Cloud CLI for Humans
 """
 from setuptools import find_packages, setup
 
-dependencies = ['click']
+dependencies = ['click', 'awscli', 'boto3', 'prettytable']
 
 setup(
     name='cch',
@@ -22,7 +22,7 @@ setup(
     entry_points={
         'console_scripts': [
             'cch = cch.cli:main',
-            'cch2 = cch.cli:temp',
+            'lsvm = cch.cli:lsvm',
         ],
     },
     classifiers=[
