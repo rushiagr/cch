@@ -6,14 +6,25 @@ import click
 import prettytable
 import sys
 
+def get_connection():
+    """Ensures that the AWS is configured properly.
 
-@click.command()
-@click.option('--as-cowboy', '-c', is_flag=True, help='Greet as a cowboy.')
-@click.argument('name', default='world', required=False)
-def main(name, as_cowboy):
-    """Cloud CLI for Humans"""
-    greet = 'Howdy' if as_cowboy else 'Hello'
-    click.echo('{0}, {1}.'.format(greet, name))
+    If not, tell how to configure it.
+
+    Returns connection object if configured properly, else None.
+    """
+    try:
+        ec2 = boto3.resource('ec2')
+    except (botocore.exceptions.NoRegionError,
+            botocore.exceptions.NoCredentialsError) as e:
+        # TODO(rushiagr): instead of telling people to run credentials, ask
+        # credentials here itself
+        print('Credentials and region not configured? Run "aws configure" to configure it.')
+        # TODO(rushiagr): let people provide singapore, and guess region name from
+        # that.
+        print('Provide region as "ap-southeast-1" for Singapore.')
+        return None
+    return ec2
 
 @click.command()
 @click.option('-s', 'show_vol_info', flag_value=True,
@@ -22,6 +33,10 @@ def main(name, as_cowboy):
         help='Show only VMs which matches given string (case-insensitive)')
 def lsvm(show_vol_info, filter_name):
     '''List all EC2 VMs. '''
+    ec2 = get_connection()
+    if not ec2:
+        return
+
     filter_name = filter_name.lower() if filter_name else None
 
     if show_vol_info:
@@ -34,18 +49,6 @@ def lsvm(show_vol_info, filter_name):
     table.left_padding_width=0
     table.right_padding_width=1
     table.border=False
-
-    try:
-        ec2 = boto3.resource('ec2')
-    except (botocore.exceptions.NoRegionError,
-            botocore.exceptions.NoCredentialsError) as e:
-        # TODO(rushiagr): instead of telling people to run credentials, ask
-        # credentials here itself
-        print('Credentials and region not configured? Run "aws configure" to configure it.')
-        # TODO(rushiagr): let people provide singapore, and guess region name from
-        # that.
-        print('Provide region as "ap-southeast-1" for Singapore.')
-        sys.exit()
 
     instances = ec2.instances.all()
 
