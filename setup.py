@@ -25,7 +25,7 @@ setup(
     name='cch',
     version='0.1.5',
     url='https://github.com/rushiagr/cch',
-    license='BSD',
+    license='Apache 2.0',
     author='Rushi Agrawal',
     author_email='rushi.agr@gmail.com',
     description='Cloud CLI for Humans',

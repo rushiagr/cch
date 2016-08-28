@@ -38,4 +38,7 @@ To use it:
     mksg    - Create a security group (including specifying secgroup rules)
     rmsg    - Delete a security group
 
-Look at `notes/plan` for a short list of things I had in my mind while developing this library
+# Etc
+
+* Look at `notes/plan` for a short list of things I had in my mind while developing this library
+* Many edge-cases haven't been taken care of right now. Feel free to submit a pull request :)
