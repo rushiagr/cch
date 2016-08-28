@@ -19,7 +19,7 @@ More details at https://github.com/rushiagr/cch/blob/master/README.md
 
 from setuptools import find_packages, setup
 
-dependencies = ['click', 'boto3', 'prettytable']
+dependencies = ['click', 'awscli', 'boto3', 'prettytable']
 
 setup(
     name='cch',
