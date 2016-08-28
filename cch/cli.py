@@ -2,6 +2,7 @@
 
 import boto3
 import botocore
+from builtins import input
 import click
 import prettytable
 import sys
