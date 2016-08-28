@@ -23,7 +23,7 @@ dependencies = ['click', 'boto3', 'prettytable']
 
 setup(
     name='cch',
-    version='0.1.5',
+    version='0.1.6',
     url='https://github.com/rushiagr/cch',
     license='Apache 2.0',
     author='Rushi Agrawal',
