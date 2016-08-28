@@ -1,13 +1,16 @@
 """
-Cloud CLI for Humans
+Cloud CLI for Humans.
+
+Run 'lsvm' or 'mkvm' to list or create a VM in EC2 cloud.
 """
+
 from setuptools import find_packages, setup
 
 dependencies = ['click', 'boto3', 'prettytable']
 
 setup(
     name='cch',
-    version='0.1.0',
+    version='0.1.1',
     url='https://github.com/rushiagr/cch',
     license='BSD',
     author='Rushi Agrawal',
