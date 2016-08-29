@@ -213,12 +213,17 @@ def lssg(is_detail):
                         str(perm['FromPort']) + '\t' + str(perm['ToPort']))
 
 @click.command()
-@click.argument('vm_ids', nargs=-1)
+@click.argument('vm_ids', nargs=-1, required=True)
 @click.option('--yes', is_flag=True, callback=abort_if_false,
               expose_value=False,
-              prompt='Are you sure you want to stop and terminate the VM? You'
-                ' can stop the VM by using "stpvm" command.')
+              prompt='Are you sure you want to stop and terminate the VM/VMs?'
+                ' You can stop the VM by using "stpvm" command.')
 def rmvm(vm_ids):
+
+    if len(vm_ids) == 0:
+        print('No VM IDs provided. Aborting')
+        return
+
     print('Stopping and terminating VMs with IDs: ', vm_ids)
 
     # TODO(rushiagr): use re.match('i-[0-9a-f]+', 'i-abcd1334') to confirm
