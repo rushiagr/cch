@@ -8,6 +8,20 @@ import click
 import prettytable
 import sys
 
+images = {
+    'ap-southeast-1': {'ubuntu14': 'ami-21d30f42'},     # Singapore
+    'ap-south-1': {'ubuntu14': 'ami-4a90fa25'},         # Mumbai
+    'us-east-1': {'ubuntu14': 'ami-2d39803a'},          # nvirginia
+    'us-west-1': {'ubuntu14': 'ami-48db9d28'},          # northcalif
+    'us-west-2': {'ubuntu14': 'ami-d732f0b7'},          # oregon
+    'eu-west-1': {'ubuntu14': 'ami-ed82e39e'},          # ireland
+    'eu-central-1': {'ubuntu14': 'ami-26c43149'},       # frankfurt
+    'ap-northeast-1': {'ubuntu14': 'ami-a21529cc'},     # tokyo
+    'ap-northeast-2': {'ubuntu14': 'ami-09dc1267'},     # seoul
+    'ap-southeast-2': {'ubuntu14': 'ami-ba3e14d9'},     # sydney
+    'sa-east-1': {'ubuntu14': 'ami-dc48dcb0'},          # saopaolo
+}
+
 def get_connection():
     """Ensures that the AWS is configured properly.
 
@@ -27,6 +41,10 @@ def get_connection():
         print('Provide region as "ap-southeast-1" for Singapore.')
         return None
     return ec2
+
+def get_region_specific_ami_id(distro):
+    region = boto3.session.Session().region_name
+    return images.get(region).get(distro)
 
 def abort_if_false(ctx, param, value):
     if not value:
@@ -140,13 +158,19 @@ def mkvm():
     sys.stdout.write("Enter root volume size in GBs: ")
     selected_vol_size=input()
 
+    ami_id = get_region_specific_ami_id('ubuntu14')
+
+    if ami_id is None:
+        print('We do not have Ubuntu image for this region')
+        return
+
     if not selected_security_group_name:
-        ec2.create_instances(DryRun=False, ImageId='ami-96f1c1c4', MinCount=1,
+        ec2.create_instances(DryRun=False, ImageId=ami_id, MinCount=1,
                 MaxCount=1, KeyName=selected_keypair, InstanceType=flavor,
                 BlockDeviceMappings=[{'DeviceName': '/dev/sda1',
                     'Ebs': {"VolumeSize": int(selected_vol_size)}}])
     else:
-        ec2.create_instances(DryRun=False, ImageId='ami-96f1c1c4', MinCount=1,
+        ec2.create_instances(DryRun=False, ImageId=ami_id, MinCount=1,
                 MaxCount=1, KeyName=selected_keypair, InstanceType=flavor,
                 BlockDeviceMappings=[{'DeviceName': '/dev/sda1',
                     'Ebs': {"VolumeSize": int(selected_vol_size)}}],
