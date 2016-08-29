@@ -1,9 +1,3 @@
-- create python package with two command line entry points
-- put lsvm and mkvm in it
-- add mkkp, lskp and rmkp
-- upload package to pypi
-- add mksg lssg rmsg
-- Only happy cases
 - add modsg
 - write tests
 - add pep8 and pylint checks
@@ -15,7 +9,9 @@
 - 'are you sure' to all 'rm' commands
 
 Future improvements
-- Use cached security groups and cached keypair names
+- take env var AWS_PROFILE for different profile than default
+- lssg -a to show security group description also
+- Use cached security groups and cached keypair names in mkvm
 - truncate vm name if more than 20 chars logs, with '[...]'
 - use echo() instead of print()
 - pretty-print flavor names
