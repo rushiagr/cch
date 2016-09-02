@@ -215,7 +215,8 @@ def lssg(is_detail):
         print('\nExecute "lssg -a" for viewing security group rules')
     else:
         for sg in secgroups:
-            print('\nSecurity group:', sg.group_name)
+            print('\nSecurity group: Name:', sg.group_name, 'ID:', sg.id,
+                    'Description:', sg.description)
 
             ip_permissions = sg.ip_permissions
             print('   Protocol\t  IP\t\tfrom\tto')
