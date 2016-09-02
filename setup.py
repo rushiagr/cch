@@ -52,6 +52,8 @@ setup(
             'lssg = cch.cli:lssg',
             'mksg = cch.cli:mksg',
             'rmsg = cch.cli:rmsg',
+
+            'lsimg = cch.cli:lsimg',
         ],
     },
     classifiers=[

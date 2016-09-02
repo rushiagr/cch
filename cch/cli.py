@@ -187,6 +187,16 @@ def lskp():
     keypair_names = [kp.name for kp in keypairs]
     print('Available keypairs:\n   ', '\n    '.join(keypair_names))
 
+@click.command()
+def lsimg():
+    ec2 = get_connection()
+    if not ec2:
+        return
+    client = boto3.client('ec2')
+    images = client.describe_images(Owners=['self'])
+    image_id_names = [i['ImageId']+' '+i['Name'] for i in images['Images']]
+    print('Images:\n   ', '\n    '.join(image_id_names))
+
 
 @click.command()
 @click.option('-a', 'is_detail', flag_value=True,
