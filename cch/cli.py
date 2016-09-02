@@ -8,6 +8,8 @@ import click
 import prettytable
 import sys
 
+# All ebs image, not instance-store. All latest ubuntu 12.04, but version not
+# specified. Maybe need to get from amazon
 images = {
     'ap-southeast-1': {'ubuntu14': 'ami-21d30f42'},     # Singapore
     'ap-south-1': {'ubuntu14': 'ami-4a90fa25'},         # Mumbai
