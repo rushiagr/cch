@@ -1,3 +1,6 @@
+- lssg -a to show sg description and id
+- Add mkami
+- Add option in mkvm for booting from image
 - add modsg
 - write tests
 - add pep8 and pylint checks
@@ -9,8 +12,8 @@
 - 'are you sure' to all 'rm' commands
 
 Future improvements
+- rm* accepts VM ids but if not specified we ask for vm 'id' not 'ids'. Handle it properly
 - take env var AWS_PROFILE for different profile than default
-- lssg -a to show security group description also
 - Use cached security groups and cached keypair names in mkvm
 - truncate vm name if more than 20 chars logs, with '[...]'
 - use echo() instead of print()

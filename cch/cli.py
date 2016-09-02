@@ -233,6 +233,7 @@ def lssg(is_detail):
                 ' You can stop the VM by using "stpvm" command.')
 def rmvm(vm_ids):
 
+    # TODO(rushiagr): not required as we're already checking 'required=True'
     if len(vm_ids) == 0:
         print('No VM IDs provided. Aborting')
         return
@@ -256,6 +257,11 @@ def rmvm(vm_ids):
               prompt='Are you sure you want to stop the VM?')
 def stpvm(vm_ids):
     print('Stopping (but not terminating) VMs with IDs: ', vm_ids)
+
+    # TODO(rushiagr): not required as we're already checking 'required=True'
+    if len(vm_ids) == 0:
+        print('No VM IDs provided. Aborting')
+        return
 
     # TODO(rushiagr): use re.match('i-[0-9a-f]+', 'i-abcd1334') to confirm
     # it's an ID
