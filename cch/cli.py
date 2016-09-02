@@ -237,7 +237,7 @@ def rmvm(vm_ids):
     ec2.instances.filter(InstanceIds=vm_ids).terminate()
 
 @click.command()
-@click.argument('vm_ids', nargs=-1)
+@click.argument('vm_ids', nargs=-1, required=True)
 @click.option('--yes', is_flag=True, callback=abort_if_false,
               expose_value=False,
               prompt='Are you sure you want to stop the VM?')
