@@ -285,6 +285,9 @@ def mkkp():
 
 @click.command()
 @click.argument('keypair_name', required=False)
+@click.option('--yes', is_flag=True, callback=abort_if_false,
+              expose_value=False,
+              prompt='Are you sure you want to delete the keypair?')
 def rmkp(keypair_name):
     ec2 = get_connection()
     if not ec2:
@@ -342,6 +345,9 @@ def mksg():
 
 @click.command()
 @click.argument('secgroup_name', required=False)
+@click.option('--yes', is_flag=True, callback=abort_if_false,
+              expose_value=False,
+              prompt='Are you sure you want to delete the security group?')
 def rmsg(secgroup_name):
     ec2 = get_connection()
     if not ec2:

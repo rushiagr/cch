@@ -1,4 +1,3 @@
-- lssg -a to show sg description and id
 - Add mkami
 - Add option in mkvm for booting from image
 - add modsg
@@ -7,9 +6,7 @@
 - add integration with circleCI/whatever
 - allow specifying 'name' for vm
 - rmvm: 1. by id. 2. by name (regex)
-- rmvm allow multiple IDs
 - rmvm and stpvm: if the VM is already stopped, command throws an error
-- 'are you sure' to all 'rm' commands
 
 Future improvements
 - rm* accepts VM ids but if not specified we ask for vm 'id' not 'ids'. Handle it properly
