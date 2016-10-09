@@ -5,10 +5,7 @@ Cloud CLI for Humans
 Very simple cloud CLI, specifically designed for human use. Strictly forbidden
 for scripts' consumption :)
 
-Just type `mkvm` and it will help you step-by-step create a virtual machine, by
-first letting you provide a flavor from availale flavors, then similarly a
-security group, and then root volume storage.  All the other commands are just
-as simple!
+More information in my blog post ["A Different Approach to AWS CLI"](http://www.rushiagr.com/blog/2016/01/02/better-aws-command-line-interface/)
 
 View demo at: https://asciinema.org/a/ektm98481nniu7rldc1ncu5af
 
